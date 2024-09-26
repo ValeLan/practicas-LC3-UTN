@@ -1,16 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Login from "./components/login/Login"
+import { useState } from 'react';
+import TaskList from './components/login/taskList/TaskList';
+import AddTask from './components/addTask/AddTask';
 
-function App() {
-  
+const App = () => {
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (taskText) => {
+    setTasks([...tasks, { text: taskText, completed: false }]);
+  };
+
+  const toggleTaskCompletion = (index) => {
+    const newTasks = [...tasks];
+    newTasks[index].completed = !newTasks[index].completed;
+    setTasks(newTasks);
+  };
+
+  const deleteTask = (index) => {
+    const newTasks = tasks.filter((_, i) => i !== index);
+    setTasks(newTasks);
+  };
+
   return (
-    <>
-      <Login/>
-    </>
-  )
-}
+    <div>
+      <h1>Lista de Tareas</h1>
+      <AddTask addTask={addTask} />
+      <TaskList 
+        tasks={tasks} 
+        toggleTaskCompletion={toggleTaskCompletion} 
+        deleteTask={deleteTask}
+      />
+    </div>
+  );
+};
 
-export default App
+export default App;
